@@ -8,7 +8,7 @@
         <icon type="download" view-box="0 0 20 22" width="16" height="16" />
       </a>
       <span class="label">
-        {{ image.file_name }}
+        {{ image.name }}
       </span>
       <a v-if="isCustomPropertiesEditable" class="edit edit--file ml-2" href="#" @click.prevent="$emit('edit-custom-properties')">
         <icon type="edit" view-box="0 0 20 20" width="16" height="16" />
