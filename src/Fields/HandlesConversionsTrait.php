@@ -2,6 +2,8 @@
 
 namespace Ebess\AdvancedNovaMediaLibrary\Fields;
 
+use Illuminate\Support\Str;
+
 /**
  * @mixin Media
  */
@@ -29,9 +31,15 @@ trait HandlesConversionsTrait
 
     public function getConversionUrls(\Spatie\MediaLibrary\MediaCollections\Models\Media $media): array
     {
+        $fullUrl = $media->getFullUrl();
+        $isInFileLib = Str::contains($fullUrl, '/fileLib/');
+        if ($isInFileLib) {
+            $toReplace = explode('/', $fullUrl)[3];
+            $fullUrl = str_replace('/' . $toReplace . '/', '/', $fullUrl);
+        }
         return [
             // original needed several purposes like cropping
-            '__original__' => $media->getFullUrl(),
+            '__original__' => $fullUrl,
             'indexView' => $media->getFullUrl($this->meta['conversionOnIndexView'] ?? ''),
             'detailView' => $media->getFullUrl($this->meta['conversionOnDetailView'] ?? ''),
             'form' => $media->getFullUrl($this->meta['conversionOnForm'] ?? ''),
